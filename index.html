@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi-VN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm Nam | LOUIS VUITTON</title>
+    <style>
+        :root {
+            --lv-black: #191919;
+            --lv-gray: #f6f6f6;
+            --lv-border: #e5e5e5;
+            --transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; color: var(--lv-black); background: white; overflow-x: hidden; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%; height: 70px;
+            background: white; border-bottom: 1px solid var(--lv-border);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1001; box-sizing: border-box;
+        }
+        .logo { font-size: 20px; font-weight: bold; letter-spacing: 6px; text-transform: uppercase; position: absolute; left: 50%; transform: translateX(-50%); cursor: pointer; }
+        
+        .nav-tool { 
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; 
+            cursor: pointer; font-weight: 500; border: none; background: none; outline: none; 
+        }
+
+        .filter-bar {
+            position: fixed; top: 70px; width: 100%; height: 60px;
+            background: white; border-bottom: 1px solid var(--lv-border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 1000; box-sizing: border-box;
+        }
+
+        /* --- OVERLAYS --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); z-index: 2000; visibility: hidden; opacity: 0; transition: var(--transition);
+        }
+        .overlay.active { visibility: visible; opacity: 1; }
+        
+        .drawer {
+            position: absolute; right: -450px; width: 450px; height: 100%;
+            background: white; padding: 40px; box-sizing: border-box; transition: var(--transition);
+            display: flex; flex-direction: column;
+        }
+        .overlay.active .drawer { right: 0; }
+
+        /* --- PRODUCT GRID --- */
+        main { padding: 130px 0 50px; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--lv-border); }
+
+        .product-card { background: white; display: flex; flex-direction: column; position: relative; opacity: 0; transform: translateY(20px); }
+        .product-card.show { opacity: 1; transform: translateY(0); transition: var(--transition); }
+
+        .img-box { width: 100%; aspect-ratio: 1/1.2; position: relative; overflow: hidden; background: var(--lv-gray); }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .product-card:hover .img-box img { transform: scale(1.05); }
+
+        .btn-add-quick {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 10; background: white; border: 1px solid #000; padding: 12px 20px;
+            font-size: 10px; font-weight: bold; text-transform: uppercase; cursor: pointer;
+            opacity: 0; transition: 0.3s;
+        }
+        .product-card:hover .btn-add-quick { opacity: 1; }
+
+        .product-info { padding: 25px 20px; text-align: left; }
+        .name { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; min-height: 32px; line-height: 1.4; }
+        .price { font-size: 13px; font-weight: 600; }
+
+        .btn-load { display: block; margin: 60px auto; padding: 18px 60px; border: 1px solid #000; background: none; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-load:hover { background: #000; color: #fff; }
+
+        /* --- GIỎ HÀNG (SỬA LỖI ẢNH TO) --- */
+        #cartList { flex-grow: 1; overflow-y: auto; margin-top: 20px; padding-right: 5px; }
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .cart-item img { width: 80px; height: 100px; object-fit: cover; background: var(--lv-gray); }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+        .cart-item-price { font-size: 12px; color: #666; }
+        .btn-remove { font-size: 10px; color: red; text-decoration: underline; cursor: pointer; margin-top: 8px; font-weight: bold; }
+
+        /* --- BỘ LỌC --- */
+        .filter-group label { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 13px; cursor: pointer; }
+        .filter-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" onclick="location.reload()">LOUIS VUITTON</div>
+    <div style="display: flex; align-items: center; gap: 25px;">
+        <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ccc;">
+            <span style="font-size: 10px; font-weight: bold;">TÌM KIẾM</span>
+            <input type="text" id="searchInput" placeholder="Bạn tìm gì?..." onkeyup="searchProduct()" 
+                   style="border: none; padding: 5px; outline: none; font-size: 12px; width: 150px;">
+        </div>
+        <button class="nav-tool" onclick="openOverlay('cartUI')">
+            GIỎ HÀNG (<span id="cartCount">0</span>)
+        </button>
+    </div>
+</header>
+
+<div id="filterUI" class="overlay" onclick="closeOverlay('filterUI')">
+    <div class="drawer" onclick="event.stopPropagation()">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
+            <span style="font-weight: bold; letter-spacing: 2px;">BỘ LỌC</span>
+            <span style="cursor: pointer;" onclick="closeOverlay('filterUI')">✕</span>
+        </div>
+        <div class="filter-group">
+            <p style="font-size: 12px; font-weight: bold; margin-bottom: 20px;">DANH MỤC</p>
+            <label><input type="checkbox" class="filter-cate" value="Khoác"> Áo Khoác</label>
+            <label><input type="checkbox" class="filter-cate" value="Monogram"> Họa Tiết Monogram</label>
+            <label><input type="checkbox" class="filter-cate" value="Da"> Đồ Da & Biker</label>
+            <label><input type="checkbox" class="filter-cate" value="Hoodie"> Hoodie & Sweatshirt</label>
+        </div>
+        <div style="margin-top: auto; display: flex; gap: 10px;">
+            <button class="btn-load" style="flex: 1; background: #000; color: #fff; margin: 0; padding: 15px 0;" onclick="applyFilter()">ÁP DỤNG</button>
+            <button class="btn-load" style="flex: 1; border: 1px solid #ccc; margin: 0; padding: 15px 0;" onclick="resetFilter()">XÓA LỌC</button>
+        </div>
+    </div>
+</div>
+
+<div id="cartUI" class="overlay" onclick="closeOverlay('cartUI')">
+    <div class="drawer" onclick="event.stopPropagation()">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+            <span style="font-weight: bold; letter-spacing: 2px;">GIỎ HÀNG</span>
+            <span style="cursor: pointer;" onclick="closeOverlay('cartUI')">✕</span>
+        </div>
+        
+        <div id="cartList"></div>
+
+        <div id="cartTotalArea" style="display: none; margin-top: auto; border-top: 2px solid #000; padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 20px;">
+                <span>TỔNG CỘNG:</span>
+                <span id="totalPrice">0₫</span>
+            </div>
+            <button class="btn-load" onclick="checkout()" style="width: 100%; margin: 0; background: #000; color: #fff;">
+                THANH TOÁN
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <button class="nav-tool" onclick="openOverlay('filterUI')">BỘ LỌC</button>
+</div>
+
+<main>
+    <div class="product-grid" id="mainGrid"></div>
+    <button id="loadBtn" class="btn-load" onclick="renderItems()">XEM THÊM SẢN PHẨM</button>
+</main>
+
+<script>
+    const allProducts = [
+        { id: 0, name: "Áo Khoác LV x Darjeeling Limited", price: 167000000, img: "images/sp1.jpg" },
+        { id: 1, name: "Áo Khoác Blouson Caro Kẻ", price: 88500000, img: "images/sp2.jpg" },
+        { id: 2, name: "Áo Khoác LV Embroidered Đen", price: 62500000, img: "images/sp3.jpg" },
+        { id: 3, name: "Áo Khoác Gió Hai Mặt Monogram", price: 95500000, img: "images/sp4.jpg" },
+        { id: 4, name: "Áo Khoác Bomber Da Bê", price: 105000000, img: "images/sp5.jpg" },
+        { id: 5, name: "Áo Parka Kẻ Monogram Canvas", price: 132000000, img: "images/sp6.jpg" },
+        { id: 6, name: "Áo Hoodie In Họa Tiết Sóng", price: 42500000, img: "images/sp7.jpg" },
+        { id: 7, name: "Áo Khoác Denim Damier Azur", price: 78000000, img: "images/sp8.jpg" },
+        { id: 8, name: "Áo Cardigan Len Cashmere Trắng", price: 61000000, img: "images/sp9.jpg" },
+        { id: 9, name: "Áo Gió Lightweight Xanh Navy", price: 54500000, img: "images/sp10.jpg" },
+        { id: 10, name: "Áo Khoác Da Lộn Màu Nâu", price: 185000000, img: "images/sp11.jpg" },
+        { id: 11, name: "Áo Varsity Jacket Logo LV", price: 115000000, img: "images/sp12.jpg" },
+        { id: 12, name: "Áo Trench Coat Cổ Điển", price: 98000000, img: "images/sp13.jpg" },
+        { id: 13, name: "Áo Khoác Puffer Lông Vũ", price: 82000000, img: "images/sp14.jpg" },
+        { id: 14, name: "Áo Blazer Dạ Sang Trọng", price: 124000000, img: "images/sp15.jpg" },
+        { id: 15, name: "Áo Khoác Safari Túi Hộp", price: 67000000, img: "images/sp16.jpg" },
+        { id: 16, name: "Áo Hoodie Khóa Kéo Monogram", price: 48000000, img: "images/sp17.jpg" },
+        { id: 17, name: "Áo Khoác Nhung Đỏ Rượu", price: 142000000, img: "images/sp18.jpg" },
+        { id: 18, name: "Áo Gile Len Họa Tiết Thêu", price: 35500000, img: "images/sp19.jpg" },
+        { id: 19, name: "Áo Khoác Biker Da Chất Lừ", price: 210000000, img: "images/sp20.jpg" },
+        { id: 20, name: "Áo Gió Phản Quang LV Night", price: 72000000, img: "images/sp21.jpg" },
+        { id: 21, name: "Áo Khoác Dạ Dáng Dài", price: 156000000, img: "images/sp22.jpg" },
+        { id: 22, name: "Áo Bomber Satin Bóng", price: 89000000, img: "images/sp23.jpg" },
+        { id: 23, name: "Áo Khoác Kỹ Thuật Chống Nước", price: 63000000, img: "images/sp24.jpg" }
+    ];
+
+    let cart = [];
+    let currentIdx = 0;
+
+    function openOverlay(id) { document.getElementById(id).classList.add('active'); }
+    function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+
+    // --- HIỂN THỊ SẢN PHẨM ---
+    function renderItems() {
+        const grid = document.getElementById('mainGrid');
+        const batch = allProducts.slice(currentIdx, currentIdx + 8);
+        
+        batch.forEach((p, i) => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="img-box">
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/400x480?text=LOUIS+VUITTON'">
+                    <button class="btn-add-quick" onclick="addToCart(${p.id})">THÊM VÀO GIỎ</button>
+                </div>
+                <div class="product-info">
+                    <div class="name">${p.name}</div>
+                    <div class="price">${p.price.toLocaleString()}₫</div>
+                </div>`;
+            grid.appendChild(card);
+            setTimeout(() => card.classList.add('show'), i * 100);
+        });
+        currentIdx += 8;
+        if (currentIdx >= allProducts.length) document.getElementById('loadBtn').style.display = 'none';
+    }
+
+    // --- TÌM KIẾM ---
+    function searchProduct() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = "";
+        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card show';
+            card.innerHTML = `
+                <div class="img-box"><img src="${p.img}"><button class="btn-add-quick" onclick="addToCart(${p.id})">THÊM VÀO GIỎ</button></div>
+                <div class="product-info"><div class="name">${p.name}</div><div class="price">${p.price.toLocaleString()}₫</div></div>`;
+            grid.appendChild(card);
+        });
+        document.getElementById('loadBtn').style.display = 'none';
+    }
+
+    // --- BỘ LỌC (FILTER) ---
+    function applyFilter() {
+        const grid = document.getElementById('mainGrid');
+        const checkboxes = document.querySelectorAll('.filter-cate:checked');
+        
+        if (checkboxes.length === 0) {
+            grid.innerHTML = ""; currentIdx = 0; renderItems();
+            document.getElementById('loadBtn').style.display = 'block';
+            closeOverlay('filterUI'); return;
+        }
+
+        const selectedValues = Array.from(checkboxes).map(cb => cb.value.toLowerCase());
+        const filtered = allProducts.filter(p => selectedValues.some(val => p.name.toLowerCase().includes(val)));
+
+        grid.innerHTML = "";
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card show';
+            card.innerHTML = `
+                <div class="img-box"><img src="${p.img}"><button class="btn-add-quick" onclick="addToCart(${p.id})">THÊM VÀO GIỎ</button></div>
+                <div class="product-info"><div class="name">${p.name}</div><div class="price">${p.price.toLocaleString()}₫</div></div>`;
+            grid.appendChild(card);
+        });
+        document.getElementById('loadBtn').style.display = 'none';
+        closeOverlay('filterUI');
+    }
+
+    function resetFilter() {
+        document.querySelectorAll('.filter-cate').forEach(cb => cb.checked = false);
+        applyFilter();
+    }
+
+    // --- GIỎ HÀNG ---
+    function addToCart(id) {
+        const product = allProducts.find(p => p.id === id);
+        if (product) {
+            cart.push({...product});
+            renderCart();
+            openOverlay('cartUI');
+        }
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+    }
+
+    function renderCart() {
+        const cartList = document.getElementById('cartList');
+        const cartCount = document.getElementById('cartCount');
+        const totalPrice = document.getElementById('totalPrice');
+        const cartTotalArea = document.getElementById('cartTotalArea');
+
+        cartCount.innerText = cart.length;
+
+        if (cart.length === 0) {
+            cartList.innerHTML = '<p style="text-align: center; color: #999; margin-top: 50px;">Giỏ hàng trống</p>';
+            cartTotalArea.style.display = 'none';
+            return;
+        }
+
+        cartTotalArea.style.display = 'block';
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        totalPrice.innerText = total.toLocaleString() + '₫';
+
+        cartList.innerHTML = cart.map((item, index) => `
+            <div class="cart-item">
+                <img src="${item.img}">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">${item.price.toLocaleString()}₫</div>
+                    <div class="btn-remove" onclick="removeFromCart(${index})">XÓA</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function checkout() {
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        if (confirm("Xác nhận thanh toán đơn hàng: " + total.toLocaleString() + "₫?")) {
+            alert("Thanh toán thành công!");
+            cart = []; renderCart(); closeOverlay('cartUI');
+        }
+    }
+
+    window.onload = renderItems;
+</script>
+</body>
+</html>
