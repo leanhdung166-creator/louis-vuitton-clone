@@ -48,7 +48,7 @@
         .overlay.active .drawer { right: 0; }
 
         /* --- PRODUCT GRID --- */
-        main { padding: 130px 0 50px; }
+        main { padding: 160px 0 50px; }
         .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--lv-border); }
 
         .product-card { background: white; display: flex; flex-direction: column; position: relative; opacity: 0; transform: translateY(20px); }
@@ -90,19 +90,27 @@
 <body>
 
 <header>
-    <div class="logo" onclick="location.reload()">LOUIS VUITTON</div>
+    <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ccc;">
+        <span style="font-size: 10px; font-weight: bold; letter-spacing: 1px;">TÌM KIẾM</span>
+        <input type="text" id="searchInput" placeholder="Bạn tìm gì?..." onkeyup="searchProduct()" 
+               style="border: none; padding: 5px; outline: none; font-size: 12px; width: 150px;">
+    </div>
+
+    <div class="logo" onclick="location.href='index.html'">LOUIS VUITTON</div>
+
+    <nav style="position: absolute; left: 50%; transform: translateX(-50%); top: 78px; display: flex; gap: 30px; width: max-content;">
+        <a href="index.html" style="text-decoration: none; color: #000; font-size: 11px; font-weight: bold; letter-spacing: 2px;">TRANG CHỦ</a>
+        <a href="shirt.html" style="text-decoration: none; color: #999; font-size: 11px; letter-spacing: 2px;">ÁO SƠ MI</a>
+        <a href="#" style="text-decoration: none; color: #999; font-size: 11px; letter-spacing: 2px;">GIÀY</a>
+        <a href="#" style="text-decoration: none; color: #999; font-size: 11px; letter-spacing: 2px;">TÚI XÁCH</a>
+    </nav>
+
     <div style="display: flex; align-items: center; gap: 25px;">
-        <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ccc;">
-            <span style="font-size: 10px; font-weight: bold;">TÌM KIẾM</span>
-            <input type="text" id="searchInput" placeholder="Bạn tìm gì?..." onkeyup="searchProduct()" 
-                   style="border: none; padding: 5px; outline: none; font-size: 12px; width: 150px;">
-        </div>
         <button class="nav-tool" onclick="openOverlay('cartUI')">
             GIỎ HÀNG (<span id="cartCount">0</span>)
         </button>
     </div>
 </header>
-
 <div id="filterUI" class="overlay" onclick="closeOverlay('filterUI')">
     <div class="drawer" onclick="event.stopPropagation()">
         <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
