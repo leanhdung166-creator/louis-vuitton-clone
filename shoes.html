@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Áo sơ mi nam cao cấp | LOUIS VUITTON</title>
+    <title>Gìay nam cao cấp | LOUIS VUITTON</title>
     <style>
         :root {
             --lv-black: #191919;
@@ -92,10 +92,10 @@
     <div class="logo" onclick="location.href='index.html'">LOUIS VUITTON</div>
 
     <nav style="position: absolute; left: 50%; transform: translateX(-50%); top: 70px; display: flex; gap: 30px;">
+        <a href="pain.html" style="text-decoration: none; color: #999; font-size: 12px; letter-spacing: 2px;"> QUẦN</a>
+        <a href="shoes.html" style="text-decoration: none; color: #000; font-size: 12px; font-weight: bold; letter-spacing: 2px;">GIÀY</a>
         <a href="index.html" style="text-decoration: none; color: #999; font-size: 12px; letter-spacing: 2px;">ÁO KHOÁC</a>
-        <a href="shirt.html" style="text-decoration: none; color: #000; font-size: 12px; font-weight: bold; letter-spacing: 2px;">ÁO SƠ MI</a>
-        <a href="shoes.html" style="text-decoration: none; color: #999; font-size: 12px; letter-spacing: 2px;">GIÀY</a>
-        <a href="pain.html" style="text-decoration: none; color: #999; font-size: 12px; letter-spacing: 2px;">QUẦN</a>
+        <a href="shirt.html" style="text-decoration: none; color: #999; font-size: 12px; letter-spacing: 2px;">ÁO SƠ MI</a>
     </nav>
 
     <div style="display: flex; align-items: center; gap: 25px;">
@@ -108,7 +108,7 @@
 </header>
 
 <div class="filter-bar">
-    <button class="nav-tool" onclick="openOverlay('filterUI')">BỘ LỌC SƠ MI</button>
+    <button class="nav-tool" onclick="openOverlay('filterUI')">BỘ LỌC</button>
 </div>
 
 <main>
@@ -124,10 +124,10 @@
         </div>
         <div class="filter-group">
             <p style="font-size: 12px; font-weight: bold; margin-bottom: 20px;">CHẤT LIỆU & KIỂU DÁNG</p>
-            <label><input type="checkbox" class="filter-cate" value="Lụa"> Vải Lụa (Silk)</label>
-            <label><input type="checkbox" class="filter-cate" value="Monogram"> Họa Tiết Monogram</label>
-            <label><input type="checkbox" class="filter-cate" value="Cotton"> Vải Cotton</label>
-            <label><input type="checkbox" class="filter-cate" value="Ngắn tay"> Áo Ngắn Tay</label>
+            <label><input type="checkbox" class="filter-cate" value="Sneaker"> Sneaker</label>
+            <label><input type="checkbox" class="filter-cate" value="Runner"> Runner</label>
+            <label><input type="checkbox" class="filter-cate" value="Derby"> Derby</label>
+            <label><input type="checkbox" class="filter-cate" value="Loafer"> Loafer</label>
         </div>
         <div style="margin-top: auto; display: flex; gap: 10px;">
             <button class="btn-load" style="flex: 1; background: #000; color: #fff; margin: 0; padding: 15px 0;" onclick="applyFilter()">ÁP DỤNG</button>
@@ -155,30 +155,30 @@
 
 <script>
     const shirtProducts = [
-        { id: 101, name: "Sơ Mi Lụa Monogram Bandana", price: 32500000, img: "images/shirt1.jpg" },
-        { id: 102, name: "Sơ Mi Ngắn tay Họa Tiết Damier", price: 28000000, img: "images/shirt2.jpg" },
-        { id: 103, name: "Sơ Mi Cotton Poplin Trắng", price: 19500000, img: "images/shirt3.jpg" },
-        { id: 104, name: "Sơ Mi Denim Monogram Bleached", price: 35000000, img: "images/shirt4.jpg" },
-        { id: 105, name: "Sơ Mi Lụa Họa Tiết Cảnh Vật", price: 42000000, img: "images/shirt5.jpg" },
-        { id: 106, name: "Sơ Mi Flanel Kẻ Caro LV", price: 24500000, img: "images/shirt6.jpg" },
-        { id: 107, name: "Sơ Mi Cổ Tàu Monogram Thêu", price: 27000000, img: "images/shirt7.jpg" },
-        { id: 108, name: "Sơ Mi Oxford Logo Kim Loại", price: 21500000, img: "images/shirt8.jpg" },
-        { id: 109, name: "Sơ Mi Hawaii Tropical Ngắn tay", price: 29000000, img: "images/shirt9.jpg" },
-        { id: 110, name: "Sơ Mi Lụa Đen Monogram Eclipse", price: 38500000, img: "images/shirt10.jpg" },
-        { id: 111, name: "Sơ Mi Kẻ Sọc Signature Cotton", price: 22000000, img: "images/shirt11.jpg" },
-        { id: 112, name: "Sơ Mi Dạ Mỏng Cho Mùa Thu", price: 26500000, img: "images/shirt12.jpg" },
-        { id: 113, name: "Sơ Mi Trắng Cotton Slim Fit", price: 18000000, img: "images/shirt13.jpg" },
-        { id: 114, name: "Sơ Mi Lụa Thêu Chỉ Vàng", price: 45000000, img: "images/shirt14.jpg" },
-        { id: 115, name: "Sơ Mi Denim Wash Sáng Màu", price: 31000000, img: "images/shirt15.jpg" },
-        { id: 116, name: "Sơ Mi Lụa Patchwork", price: 41000000, img: "images/shirt16.jpg" },
-        { id: 117, name: "Sơ Mi Túi Hộp Ngắn tay Safari", price: 27500000, img: "images/shirt17.jpg" },
-        { id: 118, name: "Sơ Mi Cotton Dệt Họa Tiết", price: 23500000, img: "images/shirt18.jpg" },
-        { id: 119, name: "Sơ Mi Ngắn tay Cuban Collar", price: 25000000, img: "images/shirt19.jpg" },
-        { id: 120, name: "Sơ Mi Lụa Bóng Sang Trọng", price: 39000000, img: "images/shirt20.jpg" },
-        { id: 121, name: "Sơ Mi Kẻ Ô Vuông Damier", price: 28500000, img: "images/shirt21.jpg" },
-        { id: 122, name: "Sơ Mi Cổ Nhọn Cotton Ý", price: 20500000, img: "images/shirt22.jpg" },
-        { id: 123, name: "Sơ Mi Lụa Vẽ Tay DNA", price: 37000000, img: "images/shirt23.jpg" },
-        { id: 124, name: "Sơ Mi Vải Linen Cotton", price: 22500000, img: "images/shirt24.jpg" }
+        { id: 101, name: "LV Trainer", price: 32500000, img: "images/giay1.jpg" },
+        { id: 102, name: "LV Skate Sneaker", price: 28000000, img: "images/giay2.jpg" },
+        { id: 103, name: "LV Shark Sneaker", price: 19500000, img: "images/giay3.jpg" },
+        { id: 104, name: "Run 55 Sneaker", price: 35000000, img: "images/giay4.jpg" },
+        { id: 105, name: "Charlie Sneaker", price: 42000000, img: "images/giay5.jpg" },
+        { id: 106, name: "Rivoli Sneaker", price: 24500000, img: "images/giay6.jpg" },
+        { id: 107, name: "Beverly Hills Sneaker", price: 27000000, img: "images/giay7.jpg" },
+        { id: 108, name: "Vuitton New Runner", price: 21500000, img: "images/giay8.jpg" },
+        { id: 109, name: "Vendôme Richelieu", price: 29000000, img: "images/giay9.jpg" },
+        { id: 110, name: "Kensington Derby", price: 38500000, img: "images/giay10.jpg" },
+        { id: 111, name: "Varenne Chelsea Boot", price: 22000000, img: "images/giay11.jpg" },
+        { id: 112, name: "Major Loafer", price: 26500000, img: "images/giay12.jpg" },
+        { id: 113, name: "Hockenheim Mocassin", price: 18000000, img: "images/giay13.jpg" },
+        { id: 114, name: "Saint Germain Loafer", price: 45555555, img: "images/giay14.jpg" },
+        { id: 115, name: "Academy Loafer", price: 31555555, img:"images/giay15.jpg" },
+        { id: 116, name:"Laurate Platform Desert Boot", price :42222222 ,img:"images/giay16.jpg"},
+        { id: 117, name: "Metropolis Ranger Boot", price: 27500000, img: "images/giay17.jpg" },
+        { id: 118, name: "Star Trail Ankle Boot", price: 23500000, img: "images/giay18.jpg" },
+        { id: 119, name: "Territory Flat Ranger", price: 25000000, img: "images/giay19.jpg" },
+        { id: 120, name: "LV Oasis Sandal", price: 39000000, img: "images/giay20.jpg" },
+        { id: 121, name: "Bom Dia Flat Sandal", price: 28500000, img: "images/giay21.jpg" },
+        { id: 122, name: "Archlight Sneaker", price: 20500000, img: "images/giay22.jpg" },
+        { id: 123, name: "LV Baroque Ranger", price: 37000000, img: "images/giay23.jpg" },
+        { id: 124, name: "LV Discovery Lace-up", price: 22500000, img: "images/giay24.jpg" }
     ];
 
     let cart = JSON.parse(localStorage.getItem('lv_cart')) || [];
